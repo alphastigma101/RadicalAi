@@ -6,6 +6,14 @@
 ```
 GOOGLE_APPLICATION_CREDENTIALS=path/to/key
 ```
+* Then you need to run this:
+```
+python3 -m venv env
+source env/bin/activate
+```
+
+# Libraries:
+* *https://docs.streamlit.io/develop/api-reference/widgets/st.file_uploader*
 
 # Creating the variable
 * You need to set the env variable so it points to your .json key

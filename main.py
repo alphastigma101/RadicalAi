@@ -1,5 +1,5 @@
 import streamlit as st
-from service import file_uploader
+#from service import file_uploader
 
 ####### SCREEN 1
 st.title("Screen 1")
