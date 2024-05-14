@@ -19,3 +19,8 @@ source env/bin/activate
 * You need to set the env variable so it points to your .json key
 * **Sources:**
   - *https://cloud.google.com/docs/authentication/application-default-credentials#GAC*
+
+
+# Sources:
+* **Git**
+  - *https://www.slingacademy.com/article/how-to-fetch-pull-all-git-branches/*
