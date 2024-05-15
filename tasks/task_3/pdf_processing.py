@@ -1,5 +1,3 @@
-# pdf_processing.py
-
 # Necessary imports
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
@@ -16,35 +14,21 @@ class DocumentProcessor:
     def __init__(self):
         self.pages = []  # List to keep track of pages from all documents
     
-    def ingest_documents(self):
+    def ingest_documents(self, filename:str): -> None
         """
-        Renders a file uploader in a Streamlit app, processes uploaded PDF files,
-        extracts their pages, and updates the self.pages list with the total number of pages.
-        
-        Given:
-        - Handling of temporary files with unique names to avoid conflicts.
-        
-        Your Steps:
-        1. Utilize the Streamlit file uploader widget to allow users to upload PDF files.
-           Hint: Look into st.file_uploader() with the 'type' parameter set to 'pdf'.
-        2. For each uploaded PDF file:
-           a. Generate a unique identifier and append it to the original file name before saving it temporarily.
-              This avoids name conflicts and maintains traceability of the file.
-           b. Use Langchain's PyPDFLoader on the path of the temporary file to extract pages.
-           c. Clean up by deleting the temporary file after processing.
-        3. Keep track of the total number of pages extracted from all uploaded documents.
-        
-        Example for generating a unique file name with the original name preserved:
-        ```
-        unique_id = uuid.uuid4().hex
-        temp_file_name = f"{original_name}_{unique_id}{file_extension}"
-        ```
+            Renders a file uploader in a Streamlit app, processes uploaded PDF files,
+            extracts their pages, and updates the self.pages list with the total number of pages.
+            Param:
+                filename: Type of file that is uploaded 
         """
-        
-        # Step 1: Render a file uploader widget. Replace 'None' with the Streamlit file uploader code.
-        uploaded_files = st.file_uploader(type=['.pdf'], accept_multiple_files=True)
+        try:
+            # Step 1: Render a file uploader widget. Replace 'None' with the Streamlit file uploader code.
+            uploaded_files = st.file_uploader(filename, type=['.pdf'], accept_multiple_files=True)
+        except:
+            print("Can only upload .PDF files!")
         
         if uploaded_files is not None:
+            breakpoint()
             for uploaded_file in uploaded_files:
                 # Generate a unique identifier to append to the file's original name
                 unique_id = uuid.uuid4().hex
@@ -64,13 +48,14 @@ class DocumentProcessor:
                 
                 # Step 3: Then, Add the extracted pages to the 'pages' list.
                 #####################################
-                
+                loader = PyPDFLoader(temp_file_path)
+                pages = loader.load_and_split() # returns a list
+                for i in range(0, len(pages)):
+                    self.pages.extend(pages[i]) # adds the pages to the DocumentProcessor
+
                 # Clean up by deleting the temporary file.
                 os.unlink(temp_file_path)
             
             # Display the total number of pages processed.
             st.write(f"Total pages processed: {len(self.pages)}")
         
-if __name__ == "__main__":
-    processor = DocumentProcessor()
-    processor.ingest_documents()

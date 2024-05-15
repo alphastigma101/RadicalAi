@@ -1,3 +1,5 @@
+# Ignore the tests folder
+tests 
 # Ignore the json key
 key/
 # Byte-compiled / optimized / DLL files
